@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: dim_station
+    description: "YouBike 站點維度表，每站一列，取最新一次觀測。"
+    columns:
+      - name: station_id
+        description: "站點代號"
+        tests:
+          - unique
+          - not_null
+      - name: capacity
+        tests:
+          - not_null
+      - name: district
+        tests:
+          - not_null
+
+  - name: fct_station_hourly
+    description: "站點 × 小時的使用狀況事實表，時間已轉為台北時間。"
+    columns:
+      - name: station_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_station')
+              field: station_id
+      - name: hour_of_day
+        tests:
+          - accepted_values:
+              values: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+              quote: false
+      - name: avg_fill_rate
+        tests:
+          - not_null
