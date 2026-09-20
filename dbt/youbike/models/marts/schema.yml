@@ -33,3 +33,6 @@ models:
       - name: avg_fill_rate
         tests:
           - not_null
+      - name: observed_minutes
+        tests:
+          - not_null
